@@ -25,8 +25,16 @@ export class UsersService {
     return this.userModel.find().exec();
   }
 
-  async getUser(userId: string): Promise<User> {
+  async findById(userId: string): Promise<User> {
     const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new NotFoundException(`User with ID not found`);
+    }
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email }).exec();
     if (!user) {
       throw new NotFoundException(`User with ID not found`);
     }
@@ -45,6 +53,7 @@ export class UsersService {
     }
     return user;
   }
+
   async deleteUser(userId: string): Promise<User> {
     const user = await this.userModel.findByIdAndDelete(userId).exec();
     if (!user) {

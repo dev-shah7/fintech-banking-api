@@ -30,7 +30,7 @@ export class UsersController {
 
   @Get('/:id')
   async getUser(@Res() response, @Param('id') userId: string) {
-    const user = await this.usersService.getUser(userId);
+    const user = await this.usersService.findById(userId);
     return response.status(HttpStatus.OK).json({
       message: 'User found successfully',
       user,
